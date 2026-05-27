@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 import { parseGridInputLine, parseRobotPosition } from './service/parsers.js';
+import { Grid, Robot } from './types/types.js';
 
 function main(): void {
   try {
@@ -18,12 +19,24 @@ function main(): void {
     currentLine = lines[currentLineIndex];
 
     const robot = parseRobotPosition(currentLine, currentLineIndex + 1);
+    if (!isRobotInBounds(robot, gridDetails)) {
+      throw new Error(
+        `Line: ${currentLineIndex + 1} Robot Starting coordinates must be inside grid`
+      );
+    }
 
     return;
   } catch (error) {
     console.error('Error:', error instanceof Error ? error.message : String(error));
     return;
   }
+}
+
+function isRobotInBounds(robot: Robot, grid: Grid) {
+  if (robot.position.x > grid.width || robot.position.x < 0) {
+    return false;
+  }
+  return !(robot.position.y > grid.height || robot.position.y < 0);
 }
 
 function initialFileRead(inputPath: string): string {
