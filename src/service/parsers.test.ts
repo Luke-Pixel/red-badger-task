@@ -3,15 +3,15 @@ import { parseGridInputLine } from './parsers.js';
 
 describe('parseGridInputLine', () => {
   it('should parse valid grid size', () => {
-    expect(parseGridInputLine('5 3', 1)).toEqual({ x: 5, y: 3 });
+    expect(parseGridInputLine('5 3', 1)).toEqual({ width: 5, height: 3 });
   });
 
   it('should parse minimum bounds (1 1)', () => {
-    expect(parseGridInputLine('1 1', 1)).toEqual({ x: 1, y: 1 });
+    expect(parseGridInputLine('1 1', 1)).toEqual({ width: 1, height: 1 });
   });
 
   it('should parse maximum bounds (50 50)', () => {
-    expect(parseGridInputLine('50 50', 1)).toEqual({ x: 50, y: 50 });
+    expect(parseGridInputLine('50 50', 1)).toEqual({ width: 50, height: 50 });
   });
 
   it('should throw for out of bounds width (51)', () => {
@@ -23,6 +23,6 @@ describe('parseGridInputLine', () => {
   });
 
   it('should throw for invalid input format', () => {
-    expect(() => parseGridInputLine('invalid', 1)).toThrow('Invalid Coordinates');
+    expect(() => parseGridInputLine('invalid', 1)).toThrow('Invalid Grid');
   });
 });
