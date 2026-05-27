@@ -1,4 +1,4 @@
-import { Grid, Orientation, Robot } from '../types/types.js';
+import { Grid, Orientation, Robot, RobotMovement } from '../types/types.js';
 
 export function parseGridInputLine(input: string, inputLine: number): Grid {
   const isValid = input.match(/^\s*(\d+)\s+(\d+)\s*$/);
@@ -52,4 +52,27 @@ export function parseRobotPosition(input: string, inputLine: number): Robot {
     orientation: isValid[3] as Orientation,
     isLost: false,
   };
+}
+
+export function parseRobotInstructions(input: string, lineNumber: number): RobotMovement[] {
+  const inputLength = input.length;
+  if (inputLength === 0 || inputLength > 100) {
+    throw new Error(
+      `Line: ${lineNumber} Invalid robot instruction length must be 1 - 100 charectors. Got ${inputLength} characters`
+    );
+  }
+
+  if (!/^[LRF]+$/.test(input)) {
+    throw new Error(
+      `Line: ${lineNumber} Invalid robot instruction, instructions must only contain L, R, F`
+    );
+  }
+
+  const inputToEnumMap: Record<string, RobotMovement> = {
+    L: RobotMovement.left,
+    R: RobotMovement.right,
+    F: RobotMovement.forward,
+  };
+
+  return input.split('').map((stringVal) => inputToEnumMap[stringVal]);
 }

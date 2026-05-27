@@ -1,5 +1,9 @@
 import { readFileSync } from 'fs';
-import { parseGridInputLine, parseRobotPosition } from './service/parsers.js';
+import {
+  parseGridInputLine,
+  parseRobotInstructions,
+  parseRobotPosition,
+} from './service/parsers.js';
 import { Grid, Robot } from './types/types.js';
 
 function main(): void {
@@ -24,6 +28,10 @@ function main(): void {
         `Line: ${currentLineIndex + 1} Robot Starting coordinates must be inside grid`
       );
     }
+
+    currentLineIndex++;
+    currentLine = lines[currentLineIndex];
+    const instrunction = parseRobotInstructions(currentLine, currentLineIndex + 1);
 
     return;
   } catch (error) {
