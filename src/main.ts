@@ -1,16 +1,23 @@
 import { readFileSync } from 'fs';
-import { parseGridInputLine } from './service/parsers.js';
+import { parseGridInputLine, parseRobotPosition } from './service/parsers.js';
 
 function main(): void {
   try {
     const inputPath = process.argv[2] ?? 'input.txt';
 
-    const input: string = initialFileRead(inputPath);
+    const input = initialFileRead(inputPath);
     const lines = splitInputText(input);
 
-    const currentLineIndex = 0;
-    const currentLine = lines[currentLineIndex];
+    let currentLineIndex = 0;
+    let currentLine = lines[currentLineIndex];
+
     const gridDetails = parseGridInputLine(currentLine, currentLineIndex + 1);
+    const gridScents = new Set<string>();
+
+    currentLineIndex++;
+    currentLine = lines[currentLineIndex];
+
+    const robot = parseRobotPosition(currentLine, currentLineIndex + 1);
 
     return;
   } catch (error) {
