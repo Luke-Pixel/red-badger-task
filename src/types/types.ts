@@ -20,3 +20,8 @@ export interface Robot {
   orientation: Orientation;
   isLost: boolean;
 }
+
+export interface Grid {
+  width: number;
+  height: number;
+}
