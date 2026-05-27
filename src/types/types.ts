@@ -25,3 +25,5 @@ export interface Grid {
   width: number;
   height: number;
 }
+
+export type LostScent = Set<string>;
