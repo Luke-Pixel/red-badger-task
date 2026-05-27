@@ -1,9 +1,10 @@
 import { readFileSync } from 'fs';
+import { parseGridInputLine } from './service/parsers.js';
 
 function main(): void {
   try {
-    console.log('app');
     const inputPath = process.argv[2] ?? 'input.txt';
+    console.log(`Reading input from ${inputPath}`);
 
     let input: string;
     try {
@@ -24,6 +25,10 @@ function main(): void {
     if (lines.length === 0) {
       throw new Error('No valid input found');
     }
+
+    const currentLineIndex = 1;
+    const currentLine = lines[currentLineIndex - 1];
+    const gridDetails = parseGridInputLine(currentLine, currentLineIndex);
 
     return;
   } catch (error) {
