@@ -8,7 +8,7 @@ export const commands: Record<RobotMovement, Command> = {
   [RobotMovement.forward]: moveForward,
 };
 
-function turnLeft(robot: Robot) {
+function turnLeft(robot: Robot): void {
   switch (robot.orientation) {
     case Orientation.north:
       robot.orientation = Orientation.west;
@@ -25,6 +25,21 @@ function turnLeft(robot: Robot) {
   }
 }
 
-function turnRight(robot: Robot) {}
+function turnRight(robot: Robot): void {
+  switch (robot.orientation) {
+    case Orientation.north:
+      robot.orientation = Orientation.east;
+      break;
+    case Orientation.east:
+      robot.orientation = Orientation.south;
+      break;
+    case Orientation.south:
+      robot.orientation = Orientation.west;
+      break;
+    case Orientation.west:
+      robot.orientation = Orientation.north;
+      break;
+  }
+}
 
 function moveForward(robot: Robot, Grid: Grid, scents: LostScent) {}
