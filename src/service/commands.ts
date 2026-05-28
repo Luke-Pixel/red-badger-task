@@ -42,4 +42,29 @@ function turnRight(robot: Robot): void {
   }
 }
 
-function moveForward(robot: Robot, Grid: Grid, scents: LostScent) {}
+function moveForward(robot: Robot, Grid: Grid, scents: LostScent) {
+  if (robot.isLost) {
+    return;
+  }
+
+  let nextX = robot.position.x;
+  let nextY = robot.position.y;
+
+  switch (robot.orientation) {
+    case Orientation.north:
+      nextY += 1;
+      break;
+    case Orientation.east:
+      nextX += 1;
+      break;
+    case Orientation.south:
+      nextY -= 1;
+      break;
+    case Orientation.west:
+      nextX -= 1;
+      break;
+  }
+
+  robot.position.x = nextX;
+  robot.position.y = nextY;
+}
