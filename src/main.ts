@@ -4,7 +4,9 @@ import {
   parseRobotInstructions,
   parseRobotPosition,
 } from './service/parsers.js';
-import { Grid, Robot } from './types/types.js';
+import { formatOutput } from './service/formatter.js';
+import { simulateRobot } from './service/simulator.js';
+import { Grid, Robot, RobotMovement } from './types/types.js';
 
 function main(): void {
   try {
@@ -20,20 +22,38 @@ function main(): void {
     const gridScents = new Set<string>();
 
     currentLineIndex++;
-    currentLine = lines[currentLineIndex];
 
-    const robot = parseRobotPosition(currentLine, currentLineIndex + 1);
-    if (!isRobotInBounds(robot, gridDetails)) {
-      throw new Error(
-        `Line: ${currentLineIndex + 1} Robot Starting coordinates must be inside grid`
+    const results: Robot[] = [];
+
+    while (currentLineIndex < lines.length) {
+      currentLine = lines[currentLineIndex];
+      const robot = parseRobotPosition(currentLine, currentLineIndex + 1);
+
+      if (!isRobotInBounds(robot, gridDetails)) {
+        throw new Error(
+          `Line: ${currentLineIndex + 1} Robot Starting coordinates must be inside grid`
+        );
+      }
+
+      currentLineIndex++;
+
+      if (currentLineIndex >= lines.length) {
+        throw new Error(`Line: ${currentLineIndex + 1} Missing robot instructions`);
+      }
+
+      currentLine = lines[currentLineIndex];
+      const instructions: RobotMovement[] = parseRobotInstructions(
+        currentLine,
+        currentLineIndex + 1
       );
+
+      simulateRobot(robot, instructions, gridDetails, gridScents);
+      results.push(robot);
+
+      currentLineIndex++;
     }
 
-    currentLineIndex++;
-    currentLine = lines[currentLineIndex];
-    const instrunction = parseRobotInstructions(currentLine, currentLineIndex + 1);
-
-    return;
+    console.log(formatOutput(results));
   } catch (error) {
     console.error('Error:', error instanceof Error ? error.message : String(error));
     return;
@@ -48,7 +68,6 @@ function isRobotInBounds(robot: Robot, grid: Grid) {
 }
 
 function initialFileRead(inputPath: string): string {
-  console.log(`Reading input from ${inputPath}`);
   let input: string;
   try {
     input = readFileSync(inputPath, 'utf-8');
