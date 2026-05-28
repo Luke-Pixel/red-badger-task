@@ -10,6 +10,14 @@
 | Vitest | Testing framework |
 | ESLint + Prettier | Linting and code formatting |
 
+## Design Decisions
+
+**CLI Application** — Due to the batch input format (grid definition followed by robot position/instruction pairs) with sequential processing and a final report. A CLI reading from a file is the simplest way to accept this input and print results. No web framework or interactive prompts are needed.
+
+**TypeScript** — Strict typing prevents an entire class of bugs (invalid orientations, coordinate errors) and makes the domain model self-documenting through enums and interfaces.
+
+**Minimal Dependencies** — The task explicitly states "User interface design is not the main focus" and "Keep it Simple Stupid". Zero runtime dependencies keeps the solution lightweight and easy to run.
+
 ## Project Structure
 
 ```
