@@ -42,7 +42,7 @@ function turnRight(robot: Robot): void {
   }
 }
 
-function moveForward(robot: Robot, Grid: Grid, scents: LostScent) {
+function moveForward(robot: Robot, grid: Grid, scents: LostScent) {
   if (robot.isLost) {
     return;
   }
@@ -63,6 +63,20 @@ function moveForward(robot: Robot, Grid: Grid, scents: LostScent) {
     case Orientation.west:
       nextX -= 1;
       break;
+  }
+
+  const isOffGrid = nextX < 0 || nextX > grid.width || nextY < 0 || nextY > grid.height;
+
+  if (isOffGrid) {
+    const scentKey = `${robot.position.x},${robot.position.y}`;
+
+    if (scents.has(scentKey)) {
+      return;
+    }
+
+    robot.isLost = true;
+    scents.add(scentKey);
+    return;
   }
 
   robot.position.x = nextX;
