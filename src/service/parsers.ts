@@ -31,7 +31,7 @@ export function parseRobotPosition(input: string, inputLine: number): Robot {
 
   if (!isValid) {
     throw new Error(
-      `Line: ${inputLine}, Invalid intital robot position, expected (X Y Orientation(N,E,S,W))`
+      `Line: ${inputLine}, Invalid initial robot position, expected (X Y Orientation(N,E,S,W))`
     );
   }
 
