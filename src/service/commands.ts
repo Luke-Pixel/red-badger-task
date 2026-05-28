@@ -1,4 +1,5 @@
 import { Grid, Orientation, LostScent, Robot, RobotMovement } from '../types/types.js';
+import { isRobotInBounds } from './util.js';
 
 export type Command = (robot: Robot, grid: Grid, scents: LostScent) => void;
 
@@ -42,7 +43,7 @@ function turnRight(robot: Robot): void {
   }
 }
 
-function moveForward(robot: Robot, grid: Grid, scents: LostScent) {
+function moveForward(robot: Robot, grid: Grid, scents: LostScent): void {
   if (robot.isLost) {
     return;
   }
@@ -65,7 +66,7 @@ function moveForward(robot: Robot, grid: Grid, scents: LostScent) {
       break;
   }
 
-  const isOffGrid = nextX < 0 || nextX > grid.width || nextY < 0 || nextY > grid.height;
+  const isOffGrid = !isRobotInBounds({ ...robot, position: { x: nextX, y: nextY } }, grid);
 
   if (isOffGrid) {
     const scentKey = `${robot.position.x},${robot.position.y}`;

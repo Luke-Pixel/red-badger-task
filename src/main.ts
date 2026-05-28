@@ -7,19 +7,20 @@ import {
 import { formatOutput } from './service/formatter.js';
 import { simulateRobot } from './service/simulator.js';
 import { Grid, Robot, RobotMovement } from './types/types.js';
+import { isRobotInBounds } from './service/util.js';
 
 function main(): void {
   try {
-    const inputPath = process.argv[2] ?? 'input.txt';
+    const inputPath: string = process.argv[2] ?? 'input.txt';
 
-    const input = initialFileRead(inputPath);
-    const lines = splitInputText(input);
+    const input: string = initialFileRead(inputPath);
+    const lines: string[] = splitInputText(input);
 
-    let currentLineIndex = 0;
-    let currentLine = lines[currentLineIndex];
+    let currentLineIndex: number = 0;
+    let currentLine: string = lines[currentLineIndex];
 
-    const gridDetails = parseGridInputLine(currentLine, currentLineIndex + 1);
-    const gridScents = new Set<string>();
+    const gridDetails: Grid = parseGridInputLine(currentLine, currentLineIndex + 1);
+    const gridScents: Set<string> = new Set<string>();
 
     currentLineIndex++;
 
@@ -27,8 +28,8 @@ function main(): void {
 
     while (currentLineIndex < lines.length) {
       currentLine = lines[currentLineIndex];
-      const robot = parseRobotPosition(currentLine, currentLineIndex + 1);
 
+      const robot = parseRobotPosition(currentLine, currentLineIndex + 1);
       if (!isRobotInBounds(robot, gridDetails)) {
         throw new Error(
           `Line: ${currentLineIndex + 1} Robot Starting coordinates must be inside grid`
@@ -60,13 +61,6 @@ function main(): void {
   }
 }
 
-function isRobotInBounds(robot: Robot, grid: Grid) {
-  if (robot.position.x > grid.width || robot.position.x < 0) {
-    return false;
-  }
-  return !(robot.position.y > grid.height || robot.position.y < 0);
-}
-
 function initialFileRead(inputPath: string): string {
   let input: string;
   try {
@@ -83,7 +77,7 @@ function initialFileRead(inputPath: string): string {
 }
 
 function splitInputText(input: string): string[] {
-  const lines = input
+  const lines: string[] = input
     .split('\n')
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
